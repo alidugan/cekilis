@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<resources>
+	<style name="MyTheme">
+		<item name="android:actionBarStyle">@style/My.ActionBar.Solid</item>
+	</style>
+	<style name="My.ActionBar.Solid" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+		<item name="android:background">@drawable/my_ab_solid</item>
+		<item name="android:backgroundStacked">@drawable/my_ab_stacked_solid</item>
+	</style>
+</resources>
