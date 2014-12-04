@@ -38,12 +38,6 @@
 
 	<Button
 		android:layout_height="wrap_content"
-		android:text="Sil"
-		android:layout_width="wrap_content"
-		android:id="@+id/deleteButton"/>
-
-	<Button
-		android:layout_height="wrap_content"
 		android:text="Çekilişi Yap"
 		android:layout_width="wrap_content"
 		android:id="@+id/mainButton2"/>
