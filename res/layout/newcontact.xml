@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="10dp">
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="@string/namelabel"
+		android:layout_width="wrap_content"
+		android:id="@+id/namelabel"/>
+
+	<EditText
+		android:layout_height="wrap_content"
+		android:inputType="textPersonName"
+		android:ems="10"
+		android:layout_width="match_parent"
+		android:id="@+id/name"/>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="@string/emaillabel"
+		android:layout_width="wrap_content"
+		android:id="@+id/emaillabel"/>
+
+	<EditText
+		android:layout_height="wrap_content"
+		android:inputType="textEmailAddress"
+		android:ems="10"
+		android:layout_width="match_parent"
+		android:id="@+id/email"/>
+
+	<Button
+		android:layout_height="wrap_content"
+		android:text="@string/okbutton"
+		android:layout_width="wrap_content"
+		android:id="@+id/buttonOk"
+		android:layout_gravity="center"/>
+
+	<Button
+		android:layout_height="wrap_content"
+		android:text="@string/cancelbutton"
+		android:layout_width="wrap_content"
+		android:id="@+id/buttonCancel"/>
+
+</LinearLayout>
+

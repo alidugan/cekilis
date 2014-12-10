@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends Activity 
 {
+	private static final  int NEWCONTACT_REQUEST=0;
 	ArrayList<String> inputs;
 	
 	ListView list;
@@ -113,16 +114,18 @@ public class MainActivity extends Activity
 				}
 			});
 
-		editText = (EditText) findViewById(R.id.mainEditText1);
-
+		
 		ekleButton = (Button) findViewById(R.id.mainButton1);
 		ekleButton.setOnClickListener(new OnClickListener() {
-
+/*
 				@Override
 				public void onClick(View p1)
 				{
+					AddDialogFragment f = new AddDialogFragment();				
+					f.show(getFragmentManager(), "adddialog");
+					
+					
 					//String[] addr = editText.getText().toString().split("@");
-
 					if ("".equals(editText.getText().toString())) {
 						return;
 					}
@@ -132,7 +135,15 @@ public class MainActivity extends Activity
 					editText.setText("");
 					listviewadapter.notifyDataSetChanged();
 
+				}*/
+				
+				@Override
+				public void onClick(View v) {
+					Intent request =new Intent(MainActivity.this, NewContactActivity.class);
+					
+					startActivityForResult(request, NEWCONTACT_REQUEST);    
 				}
+		
 			});
 			
 		
@@ -142,6 +153,11 @@ public class MainActivity extends Activity
 				@Override
 				public void onClick(View p1)
 				{
+					if (inputs.size() < 3) {
+						Toast.makeText(getApplicationContext(), R.string.warning1, Toast.LENGTH_LONG).show();
+						return;
+					}
+					
 					for(int i=0;i<inputs.size();++i){
 						Log.e("inputs", inputs.get(i));
 
@@ -161,7 +177,24 @@ public class MainActivity extends Activity
 			
 	}
 		
-
+    //this is the method that call when Activity result comes
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//check which activity gives data
+		switch(requestCode){
+				//checking for our ColorSelectorActivity using request code
+			case NEWCONTACT_REQUEST:
+				//check whether result comes with RESULT_OK (That mean no problem in result)
+				if(resultCode == RESULT_OK){
+					//then get the color string that return from our ColorSelectorActivity
+					String name= data.getExtras().getString("name");
+					
+					inputs.add(name);
+					listviewadapter.notifyDataSetChanged();
+					
+				}
+		}
+    }
 
     private class AsyncEmailTask extends AsyncTask<String, Void, String> {
         @Override
@@ -225,6 +258,48 @@ public class MainActivity extends Activity
 		
 	}
 			
-	
+	class AddDialogFragment extends DialogFragment
+	{
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState)
+		{
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle("Yeni kişi");
+			TextView namelabel = new TextView(getActivity());
+			namelabel.setText("isim");
+			TextView emaillabel = new TextView(getActivity());
+			emaillabel.setText("email");
+			EditText name = new EditText(getActivity());
+			EditText email = new EditText(getActivity());
+			builder.setView(namelabel);
+			builder.setView(name);
+			builder.setView(emaillabel);
+			//builder.setView(email);
+			
+			builder.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface p1, int p2)
+					{
+						// TODO: Implement this method
+						//getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, null);
+						//((MainActivity)getActivity()).doPositiveClick();
+					}
+				});
+
+			builder.setNegativeButton("İptal", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface p1, int p2)
+					{
+						// TODO: Implement this method
+					}
+				});
+
+			return builder.create();
+		}
+
+
+	}
 
 }

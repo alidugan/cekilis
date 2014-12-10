@@ -20,18 +20,9 @@
 		android:stretchMode="columnWidth"
 		android:gravity="center"/>
 
-	<EditText
-		android:layout_height="wrap_content"
-		android:inputType="textEmailAddress"
-		android:ems="10"
-		android:layout_width="wrap_content"
-		android:id="@+id/mainEditText1"
-		android:layout_margin="10dp"
-		android:padding="10dp"/>
-
 	<Button
 		android:layout_height="wrap_content"
-		android:text="Ekle"
+		android:text="Kişi Ekle"
 		android:layout_width="wrap_content"
 		android:id="@+id/mainButton1"
 		android:onClick="onEkleButtonClick"/>
