@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -17,33 +17,45 @@
 		android:inputType="textPersonName"
 		android:ems="10"
 		android:layout_width="match_parent"
-		android:id="@+id/name"/>
+		android:id="@+id/name"
+		android:layout_below="@+id/namelabel"/>
 
 	<TextView
 		android:layout_height="wrap_content"
 		android:text="@string/emaillabel"
 		android:layout_width="wrap_content"
-		android:id="@+id/emaillabel"/>
+		android:id="@+id/emaillabel"
+		android:layout_below="@+id/name"/>
 
 	<EditText
 		android:layout_height="wrap_content"
 		android:inputType="textEmailAddress"
 		android:ems="10"
 		android:layout_width="match_parent"
-		android:id="@+id/email"/>
+		android:id="@+id/email"
+		android:layout_below="@+id/emaillabel"/>
 
-	<Button
+	<LinearLayout
 		android:layout_height="wrap_content"
-		android:text="@string/okbutton"
-		android:layout_width="wrap_content"
-		android:id="@+id/buttonOk"
-		android:layout_gravity="center"/>
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:layout_below="@id/email">
 
-	<Button
-		android:layout_height="wrap_content"
-		android:text="@string/cancelbutton"
-		android:layout_width="wrap_content"
-		android:id="@+id/buttonCancel"/>
+		<Button
+			android:layout_height="wrap_content"
+			android:text="@string/cancelbutton"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:id="@+id/buttonCancel"/>
 
-</LinearLayout>
+		<Button
+			android:layout_height="wrap_content"
+			android:text="@string/okbutton"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:id="@+id/buttonOk"/>
+
+	</LinearLayout>
+
+</RelativeLayout>
 

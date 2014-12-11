@@ -3,7 +3,6 @@
 
     <string name="app_name">Çekiliş</string>
 	<string name="newcontact_header">Yeni Kişi Ekle</string>
-    <string name="hello_world">Hello world!</string>
 	<string name="namelabel">"İsim : "</string>
     <string name="emaillabel">"Email : "</string>
     <string name="delete">Sil</string>
