@@ -11,19 +11,19 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-public class ListViewAdapter extends ArrayAdapter<String> {
+public class ListViewAdapter extends ArrayAdapter<Contact> {
 	// Declare Variables
 	Context context;
 	LayoutInflater inflater;
-	List<String> contactList;
+	List<Contact> mList;
 	private SparseBooleanArray mSelectedItemsIds;
 
 	public ListViewAdapter(Context context, int resourceId,
-			List<String> inputList) {
+			List<Contact> inputList) {
 		super(context, resourceId, inputList);
 		mSelectedItemsIds = new SparseBooleanArray();
 		this.context = context;
-		this.contactList = inputList;
+		this.mList = inputList;
 		inflater = LayoutInflater.from(context);
 	}
 
@@ -48,21 +48,21 @@ public class ListViewAdapter extends ArrayAdapter<String> {
 			holder = (ViewHolder) view.getTag();
 		}
 		// Capture position and set to the TextViews
-		holder.name.setText(contactList.get(position));
-		holder.email.setText(contactList.get(position));
+		holder.name.setText(mList.get(position).getName());
+		holder.email.setText(mList.get(position).getEmail());
 		// Capture position and set to the ImageView
 		//holder.picture.setImageResource(contactList.get(position));
 		return view;
 	}
 
 	@Override
-	public void remove(String object) {
-		contactList.remove(object);
+	public void remove(Contact object) {
+		mList.remove(object);
 		notifyDataSetChanged();
 	}
 
-	public List<String> getContacts() {
-		return contactList;
+	public List<Contact> getContacts() {
+		return mList;
 	}
 
 	public void toggleSelection(int position) {

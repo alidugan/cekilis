@@ -17,9 +17,9 @@ import android.widget.AdapterView.OnItemClickListener;
 public class MainActivity extends Activity 
 {
 	private static final  int NEWCONTACT_REQUEST=0;
-	ArrayList<String> inputs;
+	ArrayList<Contact> inputs;
 	
-	ListView list;
+	ListView listView;
 	ListViewAdapter listviewadapter;
 	EditText editText;
 	Button cekButton;
@@ -31,25 +31,24 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-		inputs = new ArrayList<>();
+		inputs = new ArrayList<Contact>();
 		
-		// Locate the ListView in listview_main.xml
-		list = (ListView) findViewById(R.id.mainListView1);
+		listView = (ListView) findViewById(R.id.mainListView1);
 		
 		listviewadapter = new ListViewAdapter(this, R.layout.listview_item,
 											  inputs);
 
 		// Binds the Adapter to the ListView
-		list.setAdapter(listviewadapter);
-		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listView.setAdapter(listviewadapter);
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 		// Capture ListView item click
-		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
+		listView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 
 				@Override
 				public void onItemCheckedStateChanged(ActionMode mode,
 													  int position, long id, boolean checked) {
 					// Capture total checked items
-					final int checkedCount = list.getCheckedItemCount();
+					final int checkedCount = listView.getCheckedItemCount();
 					// Set the CAB title according to total checked items
 					mode.setTitle(checkedCount + " Selected");
 					// Calls toggleSelection method from ListViewAdapter Class
@@ -66,7 +65,7 @@ public class MainActivity extends Activity
 							// Captures all selected ids with a loop
 							for (int i = (selected.size() - 1); i >= 0; i--) {
 								if (selected.valueAt(i)) {
-									String selecteditem = listviewadapter
+									Contact selecteditem = (Contact)listviewadapter
 										.getItem(selected.keyAt(i));
 									// Remove selected items following the ids
 									listviewadapter.remove(selecteditem);
@@ -100,7 +99,7 @@ public class MainActivity extends Activity
 			});
 	
 
-		list.setOnItemClickListener(new OnItemClickListener() {
+		listView.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
 				public void onItemClick(AdapterView<?> l, View v, int position, long id)
@@ -159,16 +158,17 @@ public class MainActivity extends Activity
 					}
 					
 					for(int i=0;i<inputs.size();++i){
-						Log.e("inputs", inputs.get(i));
+						Log.e("inputs", inputs.get(i).getName());
 
 					}
 					
+					Raffle<Contact> raffle = new Raffle<>();
 					//ArrayList<String> peers = Raffle.setPairsAli(inputs);
-					ArrayList<String> peers = Raffle.setPairsNazim(inputs);
+					ArrayList<Contact> peers = raffle.setPairsNazim(inputs);
 					
 					
 					for(int i=0;i<peers.size();++i){
-						Log.e("peers", peers.get(i));
+						Log.e("peers", peers.get(i).getName());
 						//new AsyncEmailTask().execute(inputs.get(i),peers.get(i));
 					}
 
@@ -185,10 +185,12 @@ public class MainActivity extends Activity
 			case NEWCONTACT_REQUEST:
 				//check whether result comes with RESULT_OK (That mean no problem in result)
 				if(resultCode == RESULT_OK){
-				    String name= data.getExtras().getString("name");
-					String email= data.getExtras().getString("email");
+					Contact newContact = new Contact();
 					
-					inputs.add(name);
+				    newContact.setName(data.getExtras().getString("name"));
+					newContact.setEmail(data.getExtras().getString("email"));
+					
+					inputs.add(newContact);
 					listviewadapter.notifyDataSetChanged();
 					
 				}

@@ -5,34 +5,40 @@ public class Contact {
 	private String email;
 	private int picture;
 
+	public Contact() {
+		this.name="";
+		this.email="";
+		this.picture=0;
+	}
+	
 	public Contact(int flag, String name, String email) {
 		this.name = name;
 		this.email = email;
 		this.picture = flag;
 	}
 
-	public String getRank() {
+	public String getName() {
 		return name;
 	}
 
-	public void setRank(String rank) {
-		this.name = rank;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getCountry() {
+	public String getEmail() {
 		return email;
 	}
 
-	public void setCountry(String country) {
-		this.email = country;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public int getFlag() {
+	public int getPicture() {
 		return picture;
 	}
 
-	public void setFlag(int flag) {
-		this.picture = flag;
+	public void setPicture(int picture) {
+		this.picture = picture;
 	}
 
 }

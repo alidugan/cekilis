@@ -2,11 +2,11 @@ package com.dugan.cekilis;
 
 import java.util.*;
 
-public class Raffle
+public class Raffle<T>
 {
-	static Random random = new Random();
+	private Random random = new Random();
 	
-	static ArrayList<String> setPairsAli(ArrayList<String> inputs)
+	public ArrayList<String> setPairsAli(ArrayList<String> inputs)
 	{
 		ArrayList<String> peers = new ArrayList();
 		Vector<String> tmp = new Vector();
@@ -28,7 +28,7 @@ public class Raffle
 	}
 	
 
-	static ArrayList<String> setPairsNazim(ArrayList<String> inputs)
+	public ArrayList<T> setPairsNazim(ArrayList<T> inputs)
 	{
 		int size = inputs.size();
 		int[] es = new int[size];
@@ -76,7 +76,7 @@ public class Raffle
 
 		}
 		
-		ArrayList<String> peers = new ArrayList();
+		ArrayList<T> peers = new ArrayList();
 		for (int i=0; i<size; ++i) {
 			peers.add(inputs.get(es[i]));
 		}
