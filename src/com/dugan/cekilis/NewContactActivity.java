@@ -38,8 +38,7 @@ public class NewContactActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					if ("".equals(emailEditText.getText().toString())) {
-						Toast.makeText(getApplicationContext(), R.string.warning2, Toast.LENGTH_LONG).show();
-						
+						Toast.makeText(getApplicationContext(), R.string.warning2, Toast.LENGTH_SHORT).show();
 						return;
 					}
 

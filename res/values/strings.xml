@@ -11,6 +11,7 @@
 	<string name="ithaf">Çekiliş uygulaması (c) copyright 2014</string>
 	<string name="warning1">Lütfen en az 3 kişi giriniz!</string>
 	<string name="warning2">Lütfen doğru email adresi giriniz!</string>
+	<string name="warning3">Email adresi aynı olamaz!</string>
 	
 
 </resources>

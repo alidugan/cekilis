@@ -153,7 +153,7 @@ public class MainActivity extends Activity
 				public void onClick(View p1)
 				{
 					if (inputs.size() < 3) {
-						Toast.makeText(getApplicationContext(), R.string.warning1, Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), R.string.warning1, Toast.LENGTH_SHORT).show();
 						return;
 					}
 					
@@ -189,6 +189,13 @@ public class MainActivity extends Activity
 					
 				    newContact.setName(data.getExtras().getString("name"));
 					newContact.setEmail(data.getExtras().getString("email"));
+					
+					for (Contact contact: inputs) {
+						if (contact.getEmail().equals(newContact.getEmail())) {
+							Toast.makeText(getApplicationContext(), R.string.warning3, Toast.LENGTH_SHORT).show();
+							return;
+						}
+					}
 					
 					inputs.add(newContact);
 					listviewadapter.notifyDataSetChanged();

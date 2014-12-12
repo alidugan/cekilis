@@ -2,16 +2,16 @@ package com.dugan.cekilis;
 
 import java.util.*;
 
-public class Raffle<T>
+public class Raffle<T extends Contact>
 {
 	private Random random = new Random();
 	
-	public ArrayList<String> setPairsAli(ArrayList<String> inputs)
+	public ArrayList<T> setPairsAli(ArrayList<T> inputs)
 	{
-		ArrayList<String> peers = new ArrayList();
-		Vector<String> tmp = new Vector();
-		for (String party : inputs){
-			tmp.add(party);
+		ArrayList<T> peers = new ArrayList<>();
+		Vector<String> tmp = new Vector<>();
+		for (T party : inputs){
+			tmp.add(party.getEmail());
 		}
 
 		for (int i=0; i<inputs.size();++i) {
