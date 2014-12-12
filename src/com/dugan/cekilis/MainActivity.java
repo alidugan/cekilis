@@ -182,12 +182,11 @@ public class MainActivity extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//check which activity gives data
 		switch(requestCode){
-				//checking for our ColorSelectorActivity using request code
 			case NEWCONTACT_REQUEST:
 				//check whether result comes with RESULT_OK (That mean no problem in result)
 				if(resultCode == RESULT_OK){
-					//then get the color string that return from our ColorSelectorActivity
-					String name= data.getExtras().getString("name");
+				    String name= data.getExtras().getString("name");
+					String email= data.getExtras().getString("email");
 					
 					inputs.add(name);
 					listviewadapter.notifyDataSetChanged();

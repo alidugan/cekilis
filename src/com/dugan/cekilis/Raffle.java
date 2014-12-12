@@ -15,7 +15,6 @@ public class Raffle
 		}
 
 		for (int i=0; i<inputs.size();++i) {
-			//Log.e("cekilis", new String(String.valueOf(i)));
 			int p = random.nextInt(inputs.size());
 			if ((i == p) || ("_x_".equals(tmp.elementAt(p)))) {
 				--i;
