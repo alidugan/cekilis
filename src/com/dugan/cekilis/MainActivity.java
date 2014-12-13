@@ -169,7 +169,7 @@ public class MainActivity extends Activity
 					
 					for(int i=0;i<peers.size();++i){
 						Log.e("peers", peers.get(i).getName());
-						//new AsyncEmailTask().execute(inputs.get(i),peers.get(i));
+						new AsyncEmailTask().execute(inputs.get(i).getName(), inputs.get(i).getEmail(),peers.get(i).getName(),peers.get(i).getEmail());
 					}
 
 				}
@@ -209,10 +209,13 @@ public class MainActivity extends Activity
         protected String doInBackground(String... params) {
             try {   
 				GmailSender sender = new GmailSender("cekilisapp@gmail.com", "Duga1002");
-				sender.sendMail(params[0],   
-								params[1],   
+				String subject = "Çekiliş sonucu";
+				String body = "Hediye vereceğiniz kişi : " + params[2];
+				String rec_addr = params[1];
+				sender.sendMail(subject,   
+								body,   
 								"cekilisapp@gmail.com",   
-								"alidugan@gmail.com");   
+								rec_addr);   
 			} catch (Exception e) {   
 				Log.e("SendMail", e.getMessage(), e);   
 			} 
