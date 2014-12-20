@@ -60,7 +60,7 @@ public class PhoneContactsActivity extends Activity
 				@Override
 				public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 					switch (item.getItemId()) {
-						case R.id.delete:
+						case R.id.add:
 							// Calls getSelectedIds method from ListViewAdapter Class
 							SparseBooleanArray selected = adapter
 								.getSelectedIds();
@@ -124,8 +124,8 @@ public class PhoneContactsActivity extends Activity
 					//DeleteDialogFragment f = new DeleteDialogFragment();				
 					//f.show(getFragmentManager(), "mydialog");
 
-					String s = (String) l.getItemAtPosition(position);
-					Toast.makeText (PhoneContactsActivity.this, s, Toast.LENGTH_SHORT).show();
+					//String s = (String) l.getItemAtPosition(position);
+					//Toast.makeText (PhoneContactsActivity.this, s, Toast.LENGTH_SHORT).show();
 
 				}
 			});

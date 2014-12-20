@@ -84,6 +84,8 @@ public class MainActivity extends Activity
 				@Override
 				public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 					mode.getMenuInflater().inflate(R.menu.activity_main, menu);
+					MenuItem item = menu.findItem(R.id.add);
+					item.setVisible(false);
 					return true;
 				}
 
@@ -109,8 +111,8 @@ public class MainActivity extends Activity
 					//DeleteDialogFragment f = new DeleteDialogFragment();				
 					//f.show(getFragmentManager(), "mydialog");
 					
-					String s = (String) l.getItemAtPosition(position);
-					Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+					//String s = (String) l.getItemAtPosition(position);
+					//Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
 					
 				}
 			});
@@ -183,7 +185,7 @@ public class MainActivity extends Activity
 					
 					for(int i=0;i<peers.size();++i){
 						Log.e("peers", peers.get(i).getName());
-						new AsyncEmailTask().execute(inputs.get(i).getName(), inputs.get(i).getEmail(),peers.get(i).getName(),peers.get(i).getEmail());
+						//new AsyncEmailTask().execute(inputs.get(i).getName(), inputs.get(i).getEmail(),peers.get(i).getName(),peers.get(i).getEmail());
 					}
 
 				}
@@ -223,19 +225,24 @@ public class MainActivity extends Activity
 					ArrayList<String> names = data.getExtras().getStringArrayList("names");
 					ArrayList<String> emails = data.getExtras().getStringArrayList("emails");
 					
+					boolean duplicate;
 					for (int i=0; i < names.size(); ++i) {
 						Contact newContact = new Contact();
 				    	newContact.setName(names.get(i));
 						newContact.setEmail(emails.get(i));
-
-						/*for (Contact contact: inputs) {
+						
+						duplicate = false;
+						for (Contact contact: inputs) {
 							if (contact.getEmail().equals(newContact.getEmail())) {
 								Toast.makeText(getApplicationContext(), R.string.warning3, Toast.LENGTH_SHORT).show();
-								return;
+								duplicate = true;
+								
 							}
-						}*/
-
-						inputs.add(newContact);
+						}
+						
+						if (!duplicate) {
+							inputs.add(newContact);
+						}
 					}
 					adapter.notifyDataSetChanged();
 
