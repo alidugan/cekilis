@@ -1,5 +1,6 @@
 package com.dugan.cekilis;
 
+import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
 import android.os.*;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity
 	Button cekButton;
 	Button ekleButton;
 	
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -244,6 +246,7 @@ public class MainActivity extends Activity
 		}
     }
 
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     private class AsyncEmailTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -276,7 +279,8 @@ public class MainActivity extends Activity
     }	
 	
 	
-	class DeleteDialogFragment extends DialogFragment
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    class DeleteDialogFragment extends DialogFragment
 	{
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -309,7 +313,8 @@ public class MainActivity extends Activity
 		
 	}
 			
-	class AddDialogFragment extends DialogFragment
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    class AddDialogFragment extends DialogFragment
 	{
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState)
