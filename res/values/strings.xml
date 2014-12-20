@@ -3,9 +3,11 @@
 
     <string name="app_name">Çekiliş</string>
 	<string name="newcontact_header">Yeni Kişi Ekle</string>
+	<string name="phonecontacts_header">Rehberden Kişi Ekle</string>
 	<string name="namelabel">"İsim : "</string>
     <string name="emaillabel">"Email : "</string>
     <string name="delete">Sil</string>
+	<string name="add">Ekle</string>
 	<string name="okbutton">Tamam</string>
 	<string name="cancelbutton">İptal</string>
 	<string name="ithaf">Çekiliş uygulaması (c) copyright 2014</string>

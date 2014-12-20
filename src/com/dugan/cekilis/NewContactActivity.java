@@ -61,5 +61,7 @@ public class NewContactActivity extends Activity {
 					finish();
 				}
 			});
+			
+		
 	}
 }

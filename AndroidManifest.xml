@@ -3,6 +3,7 @@
     package="com.dugan.cekilis" >
 
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
 	
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:theme="@android:style/Theme.Holo" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+			android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +23,15 @@
 		<activity
             android:name="NewContactActivity"
             android:label="@string/newcontact_header" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+		<activity
+            android:name="PhoneContactsActivity"
+            android:label="@string/phonecontacts_header" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

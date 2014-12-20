@@ -3,6 +3,7 @@ package com.dugan.cekilis;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.text.*;
 import android.util.*;
 import android.view.*;
 import android.view.View.*;
@@ -17,10 +18,11 @@ import android.widget.AdapterView.OnItemClickListener;
 public class MainActivity extends Activity 
 {
 	private static final  int NEWCONTACT_REQUEST=0;
+	private static final  int PHONECONTACT_REQUEST=1;
 	ArrayList<Contact> inputs;
 	
 	ListView listView;
-	ListViewAdapter listviewadapter;
+	ListViewAdapter adapter;
 	EditText editText;
 	Button cekButton;
 	Button ekleButton;
@@ -35,11 +37,11 @@ public class MainActivity extends Activity
 		
 		listView = (ListView) findViewById(R.id.mainListView1);
 		
-		listviewadapter = new ListViewAdapter(this, R.layout.listview_item,
+		adapter = new ListViewAdapter(this, R.layout.listview_item,
 											  inputs);
 
 		// Binds the Adapter to the ListView
-		listView.setAdapter(listviewadapter);
+		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 		// Capture ListView item click
 		listView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
@@ -52,7 +54,7 @@ public class MainActivity extends Activity
 					// Set the CAB title according to total checked items
 					mode.setTitle(checkedCount + " Selected");
 					// Calls toggleSelection method from ListViewAdapter Class
-					listviewadapter.toggleSelection(position);
+					adapter.toggleSelection(position);
 				}
 
 				@Override
@@ -60,15 +62,15 @@ public class MainActivity extends Activity
 					switch (item.getItemId()) {
 						case R.id.delete:
 							// Calls getSelectedIds method from ListViewAdapter Class
-							SparseBooleanArray selected = listviewadapter
+							SparseBooleanArray selected = adapter
 								.getSelectedIds();
 							// Captures all selected ids with a loop
 							for (int i = (selected.size() - 1); i >= 0; i--) {
 								if (selected.valueAt(i)) {
-									Contact selecteditem = (Contact)listviewadapter
+									Contact selecteditem = (Contact)adapter
 										.getItem(selected.keyAt(i));
 									// Remove selected items following the ids
-									listviewadapter.remove(selecteditem);
+									adapter.remove(selecteditem);
 								}
 							}
 							// Close CAB
@@ -88,7 +90,7 @@ public class MainActivity extends Activity
 				@Override
 				public void onDestroyActionMode(ActionMode mode) {
 					// TODO Auto-generated method stub
-					listviewadapter.removeSelection();
+					adapter.removeSelection();
 				}
 
 				@Override
@@ -145,6 +147,18 @@ public class MainActivity extends Activity
 		
 			});
 			
+		Button rehber = (Button) findViewById(R.id.mainButtonRehber);
+		rehber.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent request =new Intent(MainActivity.this, PhoneContactsActivity.class);
+
+					startActivityForResult(request, PHONECONTACT_REQUEST);    
+				}
+
+			});
+			
 		
 		cekButton = (Button) findViewById(R.id.mainButton2);
 		cekButton.setOnClickListener(new OnClickListener() {
@@ -174,6 +188,7 @@ public class MainActivity extends Activity
 
 				}
 			});
+					
 			
 	}
 		
@@ -198,9 +213,34 @@ public class MainActivity extends Activity
 					}
 					
 					inputs.add(newContact);
-					listviewadapter.notifyDataSetChanged();
+					adapter.notifyDataSetChanged();
 					
 				}
+				break;
+			case PHONECONTACT_REQUEST:
+				
+				if(resultCode == RESULT_OK){
+					ArrayList<String> names = data.getExtras().getStringArrayList("names");
+					ArrayList<String> emails = data.getExtras().getStringArrayList("emails");
+					
+					for (int i=0; i < names.size(); ++i) {
+						Contact newContact = new Contact();
+				    	newContact.setName(names.get(i));
+						newContact.setEmail(emails.get(i));
+
+						/*for (Contact contact: inputs) {
+							if (contact.getEmail().equals(newContact.getEmail())) {
+								Toast.makeText(getApplicationContext(), R.string.warning3, Toast.LENGTH_SHORT).show();
+								return;
+							}
+						}*/
+
+						inputs.add(newContact);
+					}
+					adapter.notifyDataSetChanged();
+
+				}
+				break;
 		}
     }
 

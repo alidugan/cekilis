@@ -22,6 +22,12 @@
 
 	<Button
 		android:layout_height="wrap_content"
+		android:text="Rehberden Seç"
+		android:layout_width="match_parent"
+		android:id="@+id/mainButtonRehber"/>
+
+	<Button
+		android:layout_height="wrap_content"
 		android:text="Kişi Ekle"
 		android:layout_width="match_parent"
 		android:id="@+id/mainButton1"

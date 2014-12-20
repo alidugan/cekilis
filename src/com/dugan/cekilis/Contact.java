@@ -41,4 +41,11 @@ public class Contact {
 		this.picture = picture;
 	}
 
+	@Override
+	public String toString()
+	{
+		// TODO: Implement this method
+		return name;
+	}
+
 }

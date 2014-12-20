@@ -10,6 +10,7 @@ import java.util.List;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import com.sun.mail.imap.protocol.*;
 
 public class ListViewAdapter extends ArrayAdapter<Contact> {
 	// Declare Variables
@@ -47,11 +48,12 @@ public class ListViewAdapter extends ArrayAdapter<Contact> {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
+		Contact item = getItem(position);
 		// Capture position and set to the TextViews
-		holder.name.setText(mList.get(position).getName());
-		holder.email.setText(mList.get(position).getEmail());
+		holder.name.setText(item.getName());
+		holder.email.setText(item.getEmail());
 		// Capture position and set to the ImageView
-		//holder.picture.setImageResource(contactList.get(position));
+		//holder.picture.setImageResource(item.getPicture());
 		return view;
 	}
 
