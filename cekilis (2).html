@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Çekiliş</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root {
+  --bg:#f5f4f0; --card:#ffffff; --card2:#fafaf8; --border:#e8e6e0; --border2:#d4d0c8;
+  --accent:#ff5c2b; --accent-l:#fff0eb; --accent-d:#d94818;
+  --text:#1a1916; --text2:#6b6860; --text3:#a8a49c;
+  --green:#1a9a5c; --green-bg:#edfaf3;
+  --red:#d63b3b; --red-bg:#fdf0f0;
+  --blue:#2563eb; --blue-bg:#eff4ff;
+  --gold:#b07d2a; --gold-bg:#fdf5e6;
+  --r:12px; --r-lg:18px; --r-xl:24px;
+  --sh:0 2px 8px rgba(0,0,0,.07),0 0 0 1px rgba(0,0,0,.04);
+  --sh-lg:0 8px 32px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#131210; --card:#1e1c19; --card2:#252320; --border:#2e2b26; --border2:#3d3a34;
+    --accent:#ff6b3d; --accent-l:#2a1a12; --accent-d:#ff8560;
+    --text:#f0ede8; --text2:#8c8880; --text3:#5c5850;
+    --green:#2ecc8a; --green-bg:#0d2419;
+    --red:#ff5c5c; --red-bg:#2a1010;
+    --blue:#5b8def; --blue-bg:#111a2e;
+    --gold:#e0a84a; --gold-bg:#251d0a;
+    --sh:0 2px 8px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.04);
+    --sh-lg:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.04);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;line-height:1.5;min-height:100dvh}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--border);padding:0 20px;height:60px;display:flex;align-items:center;gap:12px}
+.hdr-logo{display:flex;align-items:center;gap:10px;flex:1}
+.hdr-icon{width:36px;height:36px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hdr-name{font-size:19px;font-weight:800;letter-spacing:-.5px}
+.hdr-badge{font-size:10px;font-weight:700;letter-spacing:.5px;background:var(--accent-l);color:var(--accent);border-radius:6px;padding:2px 7px}
+.hdr-acts{display:flex;gap:8px}
+
+/* MOBILE TABS */
+.mtabs{display:none;position:sticky;top:60px;z-index:40;background:var(--card);border-bottom:1px solid var(--border);padding:0 16px}
+.mtabs-inner{display:flex}
+.tab-btn{flex:1;padding:12px 8px;background:none;border:none;border-bottom:2.5px solid transparent;font-family:inherit;font-size:13px;font-weight:700;color:var(--text3);cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tab-btn.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-n{background:var(--accent);color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:800;min-width:20px;text-align:center}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100dvh - 61px)}
+.pleft{border-right:1px solid var(--border);display:flex;flex-direction:column;height:calc(100dvh - 61px);position:sticky;top:61px;overflow:hidden}
+.pright{padding:28px 32px;overflow-y:auto}
+
+/* SECTION LABEL */
+.slabel{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+
+/* ADD FORM */
+.aform{padding:18px 18px 14px;border-bottom:1px solid var(--border);background:var(--card)}
+.igroup{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s,box-shadow .15s;margin-bottom:8px}
+.igroup:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-l)}
+.ifield{display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--border)}
+.ifield:last-child{border-bottom:none}
+.ifield label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);min-width:42px}
+.ifield input{flex:1;background:none;border:none;outline:none;font-family:inherit;font-size:14px;font-weight:500;color:var(--text);padding:11px 8px}
+.ifield input::placeholder{color:var(--text3);font-weight:400}
+.brow{display:flex;gap:8px}
+
+/* BUTTONS */
+button{font-family:inherit;font-weight:600;font-size:13px;border:none;border-radius:var(--r);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+button:active{transform:scale(.97)}
+.b-acc{background:var(--accent);color:#fff;padding:10px 18px;flex:1;font-size:14px;font-weight:700}
+.b-acc:hover{background:var(--accent-d)}
+.b-acc:disabled{background:var(--border2);color:var(--text3);cursor:not-allowed;transform:none;box-shadow:none}
+.b-out{background:none;color:var(--text2);border:1.5px solid var(--border2);padding:10px 14px}
+.b-out:hover{background:var(--card2);color:var(--text);border-color:var(--text3)}
+.b-ghost{background:none;color:var(--text2);border:1.5px solid var(--border);padding:7px 12px;font-size:12px;border-radius:8px}
+.b-ghost:hover{background:var(--card2);color:var(--text)}
+.b-danger{background:var(--red-bg);color:var(--red);border:1.5px solid #f5c6c6;padding:8px 14px}
+.b-danger:hover{background:#fce4e4}
+.b-green{background:var(--green-bg);color:var(--green);border:1.5px solid #b3e8d0;padding:8px 14px}
+.b-green:hover{background:#d8f5ea}
+.b-blue{background:var(--blue-bg);color:var(--blue);border:1.5px solid #c7d9f8;padding:7px 12px;font-size:12px;border-radius:8px}
+.b-blue:hover{background:#dce9fd}
+.b-big{padding:14px 32px;font-size:15px;font-weight:800;border-radius:50px;box-shadow:0 4px 16px rgba(255,92,43,.3)}
+.b-big:hover{box-shadow:0 6px 24px rgba(255,92,43,.4);transform:translateY(-1px)}
+.b-big:active{transform:translateY(0) scale(.98)}
+
+/* LIST TOOLBAR */
+.ltbar{padding:10px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);background:var(--card);min-height:48px;flex-shrink:0}
+.lcount{font-size:12px;font-weight:600;color:var(--text3);flex:1}
+.lcount strong{color:var(--accent)}
+
+/* CONTACTS */
+.cscroll{flex:1;overflow-y:auto;background:var(--card)}
+.cscroll::-webkit-scrollbar{width:3px}
+.cscroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.citem{display:flex;align-items:center;gap:12px;padding:11px 18px;cursor:pointer;transition:background .12s;border-bottom:1px solid var(--border);user-select:none;-webkit-user-select:none}
+.citem:last-child{border-bottom:none}
+.citem:hover{background:var(--card2)}
+.citem.sel{background:var(--accent-l)}
+.cck{width:20px;height:20px;flex-shrink:0;border:2px solid var(--border2);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .12s;font-size:11px;font-weight:800;color:transparent}
+.citem.sel .cck{background:var(--accent);border-color:var(--accent);color:#fff}
+.cavt{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;background:var(--accent-l);color:var(--accent)}
+.cinf{flex:1;min-width:0}
+.cname{font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cemail{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.cdel{background:none;border:none;color:var(--text3);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transition:opacity .12s,background .12s,color .12s;cursor:pointer;flex-shrink:0}
+.citem:hover .cdel{opacity:1}
+.cdel:hover{background:var(--red-bg);color:var(--red);opacity:1!important}
+.empty{padding:48px 24px;text-align:center;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty p{font-size:14px;line-height:1.6}
+
+/* RIGHT PANEL */
+.rsec{margin-bottom:24px}
+.rhero{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:28px;display:flex;flex-direction:column;align-items:flex-start;gap:16px;box-shadow:var(--sh)}
+.rhero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;width:100%}
+.rtitle{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.rsub{font-size:13px;color:var(--text2);margin-top:3px}
+
+/* EMAIL BANNER */
+.ebanner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--blue-bg);border:1.5px solid #c7d9f8;border-radius:var(--r);padding:12px 16px;font-size:13px;color:var(--blue);width:100%}
+.ebanner.ok{background:var(--green-bg);border-color:#b3e8d0;color:var(--green)}
+.ebtxt{flex:1;font-weight:500}
+
+/* WARN */
+.warnbox{display:flex;align-items:center;gap:10px;background:var(--gold-bg);border:1.5px solid #e8d0a0;border-radius:var(--r);padding:12px 16px;font-size:13px;color:var(--gold);font-weight:500;margin-bottom:20px}
+.warnbox.hide{display:none}
+
+/* DRUM */
+.drum{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--r-lg);min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:28px;text-align:center;overflow:hidden}
+.d-idle{font-size:14px;color:var(--text3)}
+.d-roll{font-size:34px;font-weight:800;letter-spacing:-1.5px;color:var(--accent);animation:flash .08s infinite}
+@keyframes flash{0%,100%{opacity:1}50%{opacity:.2}}
+.d-done{font-size:24px;font-weight:800;color:var(--green);animation:popIn .4s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+/* RESULTS */
+.rcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+.rcard-hdr{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--card2)}
+.racts{display:flex;gap:8px;flex-wrap:wrap}
+.rrow{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);animation:sUp .3s cubic-bezier(.175,.885,.32,1.275) both}
+.rrow:last-child{border-bottom:none}
+@keyframes sUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.rperson{flex:1;min-width:0}
+.rperson .rn{font-size:14px;font-weight:700}
+.rperson .re{font-size:11px;color:var(--text3);margin-top:1px}
+.rperson.recv{text-align:right}
+.rarr{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
+.achip{background:var(--accent-l);color:var(--accent);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;white-space:nowrap}
+
+/* HISTORY */
+.hcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.hcard-hdr{padding:14px 18px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text2);background:var(--card2)}
+.hrow{display:flex;gap:12px;align-items:baseline;padding:10px 18px;border-bottom:1px solid var(--border);font-size:12px}
+.hrow:last-child{border-bottom:none}
+.hts{color:var(--text3);font-weight:600;flex-shrink:0}
+.hbody{color:var(--text2);line-height:1.5}
+
+/* MODALS */
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+@media(min-width:600px){.overlay{align-items:center}}
+.modal{background:var(--card);border-radius:var(--r-xl);width:100%;max-width:500px;max-height:90dvh;overflow-y:auto;box-shadow:var(--sh-lg);animation:shUp .25s cubic-bezier(.34,1.56,.64,1)}
+@keyframes shUp{from{opacity:0;transform:translateY(40px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.mhdr{padding:20px 20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.mtitle{font-size:18px;font-weight:800}
+.mclose{background:var(--card2);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;color:var(--text2);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.mclose:hover{background:var(--border2);color:var(--text)}
+.mbody{padding:16px 20px 20px}
+.mdesc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px}
+.mfoot{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;background:var(--card2);border-radius:0 0 var(--r-xl) var(--r-xl)}
+.modal textarea{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-family:inherit;font-size:13px;padding:12px;resize:vertical;min-height:140px;outline:none}
+.modal textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-l)}
+
+/* FORM FIELDS */
+.fstack{display:flex;flex-direction:column;gap:10px}
+.fgrp{display:flex;flex-direction:column;gap:4px}
+.flabel{font-size:12px;font-weight:700;color:var(--text2)}
+.finput{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-family:inherit;font-size:14px;font-weight:500;padding:10px 12px;outline:none;width:100%}
+.finput:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-l)}
+.finput::placeholder{color:var(--text3);font-weight:400}
+
+/* SETUP STEPS */
+.steps{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--text2);line-height:1.6}
+.snum{min-width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.step a{color:var(--blue);text-decoration:none;font-weight:600}
+.step a:hover{text-decoration:underline}
+code{background:var(--card2);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--accent);font-family:monospace}
+
+/* PROGRESS */
+.plist{display:flex;flex-direction:column;gap:6px}
+.prow{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);font-size:13px;font-weight:500;border:1.5px solid transparent}
+.prow.pending{background:var(--card2);border-color:var(--border);color:var(--text2)}
+.prow.sending{background:var(--gold-bg);border-color:#e8d0a0;color:var(--gold)}
+.prow.sent{background:var(--green-bg);border-color:#b3e8d0;color:var(--green)}
+.prow.failed{background:var(--red-bg);border-color:#f5c6c6;color:var(--red)}
+.pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.prow.pending .pdot{background:var(--text3)}
+.prow.sending .pdot{background:var(--gold);animation:throb .7s infinite}
+.prow.sent .pdot{background:var(--green)}
+.prow.failed .pdot{background:var(--red)}
+@keyframes throb{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+.pinfo{flex:1}
+.pname{font-weight:700}
+.ptgt{font-size:11px;opacity:.7}
+.pst{font-size:11px;font-weight:700}
+
+/* CONFIRM */
+.cbox{max-width:360px}
+.cbox .mbody{text-align:center}
+.cicon{font-size:36px;margin-bottom:10px}
+.cbox h3{font-size:17px;font-weight:800;margin-bottom:8px}
+.cbox p{font-size:14px;color:var(--text2)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;z-index:999;transform:translateX(-50%) translateY(16px);background:var(--text);color:var(--card);border-radius:50px;padding:10px 20px;font-size:13px;font-weight:600;opacity:0;transition:all .22s;white-space:nowrap;pointer-events:none;box-shadow:var(--sh-lg)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--red);color:#fff}
+
+/* MOBILE */
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;min-height:auto}
+  .mtabs{display:block}
+  .pleft{height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
+  .pright{padding:16px}
+  .cscroll{max-height:320px}
+  .pleft[data-h],.pright[data-h]{display:none}
+  .rhero{padding:20px}
+  .rhero-top{flex-direction:column;gap:12px}
+  .b-big{width:100%}
+  .rrow{padding:12px 14px;gap:8px}
+  .rperson .rn{font-size:13px}
+  .rperson .re{display:none}
+  .cdel{opacity:1}
+}
+@media(max-width:480px){
+  .hdr{padding:0 14px}
+  .pright{padding:14px 12px}
+  .aform{padding:14px 14px 12px}
+  .modal{border-radius:var(--r-xl) var(--r-xl) 0 0;max-height:95dvh}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-icon">🎁</div>
+    <span class="hdr-name">Çekiliş</span>
+    <span class="hdr-badge">Secret Santa</span>
+  </div>
+  <div class="hdr-acts">
+    <button class="b-ghost" onclick="openEmailSetup()" title="Email ayarları">📧 Email</button>
+  </div>
+</header>
+
+<!-- MOBILE TABS -->
+<nav class="mtabs" id="mtabs">
+  <div class="mtabs-inner">
+    <button class="tab-btn on" id="tabL" onclick="switchTab('left')">👥 Katılımcılar <span class="tab-n" id="tabN">0</span></button>
+    <button class="tab-btn" id="tabR" onclick="switchTab('right')">🎲 Çekiliş</button>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="pleft" id="pL">
+    <div class="aform">
+      <div class="slabel">Yeni Katılımcı</div>
+      <div class="igroup">
+        <div class="ifield"><label>İSİM</label><input type="text" id="iN" placeholder="Ad Soyad" autocomplete="off" autocorrect="off"></div>
+        <div class="ifield"><label>EMAIL</label><input type="email" id="iE" placeholder="ornek@email.com" autocomplete="off" inputmode="email"></div>
+      </div>
+      <div class="brow">
+        <button class="b-acc" onclick="addContact()">+ Kişi Ekle</button>
+        <button class="b-out" onclick="openImport()" title="Toplu ekle">⬆ Aktar</button>
+      </div>
+    </div>
+
+    <div class="ltbar">
+      <div class="lcount" id="lcount"><strong>0</strong> katılımcı</div>
+      <span id="selLbl" style="font-size:12px;color:var(--text3);display:none;"></span>
+      <button class="b-ghost" onclick="toggleSelAll()" id="bSelAll">Tümünü seç</button>
+      <button class="b-danger" onclick="deleteSel()" id="bDelSel" style="display:none;">Sil</button>
+    </div>
+
+    <div class="cscroll" id="clist"></div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="pright" id="pR">
+
+    <div class="rsec rhero">
+      <div class="rhero-top">
+        <div>
+          <div class="rtitle">Çekilişi Başlat 🎲</div>
+          <div class="rsub">Her kişi başka birine hediye verir — kimseye kendi ismi düşmez.</div>
+        </div>
+        <button class="b-acc b-big" id="bDraw" onclick="startRaffle()">Çekilişi Yap</button>
+      </div>
+      <div class="ebanner" id="eBanner">
+        <span class="ebtxt" id="eBannerTxt">📧 Email bildirimi kapalı. Katılımcılara otomatik bildirim için ayarlayın.</span>
+        <button class="b-blue" onclick="openEmailSetup()" id="eBannerBtn">Ayarla</button>
+        <button class="b-ghost" onclick="clearEmailCfg()" id="eClearBtn" style="display:none;color:var(--red);border-color:#f5c6c6;">Kaldır</button>
+      </div>
+    </div>
+
+    <div class="warnbox hide" id="wbox">⚠ <span id="wtxt"></span></div>
+
+    <div class="rsec drum" id="drum"><div class="d-idle">Katılımcıları ekleyin ve çekilişi başlatın.</div></div>
+
+    <div class="rsec rcard" id="rcard" style="display:none">
+      <div class="rcard-hdr">
+        <span class="slabel" style="margin:0;flex:1">Sonuçlar</span>
+        <div class="racts" id="racts"></div>
+      </div>
+      <div id="rgrid"></div>
+    </div>
+
+    <div class="rsec hcard" id="hcard" style="display:none">
+      <div class="hcard-hdr">Geçmiş Çekilişler</div>
+      <div id="hlist"></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- IMPORT MODAL -->
+<div class="overlay" id="mImport">
+  <div class="modal">
+    <div class="mhdr"><div class="mtitle">⬆ Toplu Kişi Aktar</div><button class="mclose" onclick="closeImport()">✕</button></div>
+    <div class="mbody">
+      <p class="mdesc">Her satıra bir kişi. Format: <code>İsim, email@ornek.com</code><br>Sadece isim de girilebilir.</p>
+      <textarea id="iTxt" placeholder="Ali Veli, ali@example.com&#10;Ayşe Fatma, ayse@example.com&#10;Mehmet Kaya, mehmet@example.com"></textarea>
+    </div>
+    <div class="mfoot">
+      <button class="b-out" onclick="closeImport()">İptal</button>
+      <button class="b-acc" onclick="doImport()">İçe Aktar</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL SETUP MODAL -->
+<div class="overlay" id="mEmail">
+  <div class="modal" style="max-width:540px">
+    <div class="mhdr"><div class="mtitle">📧 Email Bildirimi</div><button class="mclose" onclick="closeEmailSetup()">✕</button></div>
+    <div class="mbody">
+      <p class="mdesc">EmailJS ile her katılımcıya kime hediye alacağını bildiren email gönderilir. Ücretsiz planda aylık <strong>200 email</strong>.</p>
+      <div class="steps">
+        <div class="step"><div class="snum">1</div><div><a href="https://www.emailjs.com" target="_blank">emailjs.com</a>'a ücretsiz kayıt olun.</div></div>
+        <div class="step"><div class="snum">2</div><div><strong>Email Services</strong> → Gmail bağlayın → <code>Service ID</code> kopyalayın.</div></div>
+        <div class="step"><div class="snum">3</div><div><strong>Email Templates</strong> → Yeni şablon oluşturun. Değişkenler: <code>{{to_name}}</code> <code>{{receiver_name}}</code> <code>{{message}}</code></div></div>
+        <div class="step"><div class="snum">4</div><div><strong>Account → API Keys</strong> → <code>Public Key</code> kopyalayın.</div></div>
+      </div>
+      <div class="fstack">
+        <div class="fgrp"><label class="flabel">Public Key</label><input class="finput" id="cKey" placeholder="user_xxxxxxxxxxxx" autocomplete="off"></div>
+        <div class="fgrp"><label class="flabel">Service ID</label><input class="finput" id="cSvc" placeholder="service_xxxxxxx" autocomplete="off"></div>
+        <div class="fgrp"><label class="flabel">Template ID</label><input class="finput" id="cTpl" placeholder="template_xxxxxxx" autocomplete="off"></div>
+        <div class="fgrp"><label class="flabel">Gönderen Adı</label><input class="finput" id="cFrom" placeholder="Çekiliş Uygulaması" autocomplete="off"></div>
+      </div>
+      <div id="eErr" style="display:none;color:var(--red);font-size:13px;margin-top:10px;font-weight:600;"></div>
+    </div>
+    <div class="mfoot">
+      <button class="b-out" onclick="closeEmailSetup()">İptal</button>
+      <button class="b-acc" onclick="saveEmailCfg()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEND PROGRESS MODAL -->
+<div class="overlay" id="mSend">
+  <div class="modal" style="max-width:480px">
+    <div class="mhdr">
+      <div class="mtitle" id="sTitle">Emailler Gönderiliyor…</div>
+      <button class="mclose" id="sClose" onclick="closeSend()" style="display:none">✕</button>
+    </div>
+    <div class="mbody">
+      <p class="mdesc" id="sDesc" style="margin-bottom:14px"></p>
+      <div class="plist" id="plist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="overlay" id="mConfirm">
+  <div class="modal cbox">
+    <div class="mbody" style="padding:28px 24px 8px">
+      <div class="cicon">🗑️</div>
+      <h3 id="cTitle">Sil</h3>
+      <p id="cTxt"></p>
+    </div>
+    <div class="mfoot">
+      <button class="b-out" onclick="closeConfirm()">İptal</button>
+      <button class="b-danger" onclick="doConfirm()">Evet, Sil</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══ STATE ═══════════════════════════════════════════
+let contacts=[], selIds=new Set(), pendAct=null, hist=[], lastPairs=null, roller=null, curTab='left';
+const eCfg={ok:false,key:'',svc:'',tpl:'',from:'Çekiliş Uygulaması'};
+const LS_C='ck2_contacts', LS_H='ck2_history', LS_E='ck2_email';
+
+// ═══ PERSISTENCE ══════════════════════════════════════
+function saveC(){try{localStorage.setItem(LS_C,JSON.stringify(contacts))}catch(e){}}
+function loadC(){try{const r=localStorage.getItem(LS_C);if(r){const a=JSON.parse(r);if(Array.isArray(a))contacts=a}}catch(e){}}
+function saveH(){try{localStorage.setItem(LS_H,JSON.stringify(hist.slice(0,20)))}catch(e){}}
+function loadH(){try{const r=localStorage.getItem(LS_H);if(r){const a=JSON.parse(r);if(Array.isArray(a))hist=a}}catch(e){}}
+function loadE(){
+  try{
+    const r=localStorage.getItem(LS_E);
+    if(r){const c=JSON.parse(r);if(c.key&&c.svc&&c.tpl){Object.assign(eCfg,c,{ok:true});emailjs.init(eCfg.key)}}
+  }catch(e){}
+}
+
+// ═══ UTILS ════════════════════════════════════════════
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function initials(n){return n.trim().split(/\s+/).map(w=>w[0]?.toUpperCase()||'').slice(0,2).join('')||'?'}
+function isEmail(e){return e&&e.includes('@')&&e.includes('.')}
+let _tt;
+function toast(msg,err=false){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(err?' err':'');clearTimeout(_tt);_tt=setTimeout(()=>el.className='toast',2800)}
+function warn(msg){const b=document.getElementById('wbox');document.getElementById('wtxt').textContent=msg;b.classList.remove('hide');setTimeout(()=>b.classList.add('hide'),3500)}
+
+// ═══ MOBILE TABS ══════════════════════════════════════
+function switchTab(t){
+  curTab=t;
+  if(window.innerWidth>768)return;
+  const pL=document.getElementById('pL'),pR=document.getElementById('pR');
+  const tL=document.getElementById('tabL'),tR=document.getElementById('tabR');
+  if(t==='left'){pL.removeAttribute('data-h');pR.setAttribute('data-h','1');tL.classList.add('on');tR.classList.remove('on')}
+  else{pR.removeAttribute('data-h');pL.setAttribute('data-h','1');tR.classList.add('on');tL.classList.remove('on')}
+}
+window.addEventListener('resize',()=>{
+  if(window.innerWidth>768){document.getElementById('pL').removeAttribute('data-h');document.getElementById('pR').removeAttribute('data-h')}
+  else switchTab(curTab);
+});
+
+// ═══ CONTACTS ═════════════════════════════════════════
+function addContact(n,e){
+  n=(n||document.getElementById('iN').value).trim();
+  e=(e||document.getElementById('iE').value).trim();
+  if(!e){toast('Lütfen email adresi giriniz!',true);document.getElementById('iE').focus();return false}
+  if(!isEmail(e)){toast('Geçersiz email adresi!',true);document.getElementById('iE').focus();return false}
+  if(contacts.find(c=>c.email.toLowerCase()===e.toLowerCase())){toast('Bu email zaten listede!',true);return false}
+  const c={id:Date.now()+'_'+Math.random().toString(36).slice(2),name:n||e.split('@')[0],email:e};
+  contacts.push(c);
+  document.getElementById('iN').value='';document.getElementById('iE').value='';
+  document.getElementById('iN').focus();
+  saveC();renderC();toast(c.name+' eklendi.');return true;
+}
+
+function renderC(){
+  const el=document.getElementById('clist');
+  document.getElementById('lcount').innerHTML=`<strong>${contacts.length}</strong> katılımcı`;
+  document.getElementById('tabN').textContent=contacts.length;
+  if(!contacts.length){el.innerHTML=`<div class="empty"><div class="empty-icon">👥</div><p>Henüz katılımcı yok.<br>Yukarıdan kişi ekleyin.</p></div>`;updSelUI();return}
+  el.innerHTML='';
+  contacts.forEach(c=>{
+    const sel=selIds.has(c.id),d=document.createElement('div');
+    d.className='citem'+(sel?' sel':'');
+    d.innerHTML=`<div class="cck">${sel?'✓':''}</div><div class="cavt">${esc(initials(c.name))}</div><div class="cinf"><div class="cname">${esc(c.name)}</div><div class="cemail">${esc(c.email)}</div></div><button class="cdel" onclick="confDel('${c.id}')" title="Sil">✕</button>`;
+    d.addEventListener('click',ev=>{if(!ev.target.closest('.cdel'))togSel(c.id)});
+    el.appendChild(d);
+  });
+  updSelUI();
+}
+
+function togSel(id){if(selIds.has(id))selIds.delete(id);else selIds.add(id);renderC()}
+function toggleSelAll(){if(selIds.size===contacts.length)selIds.clear();else contacts.forEach(c=>selIds.add(c.id));renderC()}
+function updSelUI(){
+  const lbl=document.getElementById('selLbl'),del=document.getElementById('bDelSel'),sel=document.getElementById('bSelAll');
+  if(selIds.size>0){lbl.style.display='inline';lbl.textContent=selIds.size+' seçili';del.style.display='inline-flex';sel.textContent=selIds.size===contacts.length?'Seçimi kaldır':'Tümünü seç'}
+  else{lbl.style.display='none';del.style.display='none';sel.textContent='Tümünü seç'}
+}
+
+function confDel(id){
+  const c=contacts.find(x=>x.id===id);
+  document.getElementById('cTitle').textContent='Kişiyi Sil';
+  document.getElementById('cTxt').textContent=(c?.name||'Bu kişi')+' listeden silinsin mi?';
+  pendAct=()=>{contacts=contacts.filter(x=>x.id!==id);selIds.delete(id);saveC();renderC();toast('Kişi silindi.')};
+  openM('mConfirm');
+}
+function deleteSel(){
+  const n=selIds.size;
+  document.getElementById('cTitle').textContent=n+' Kişiyi Sil';
+  document.getElementById('cTxt').textContent=n+' katılımcı silinsin mi?';
+  pendAct=()=>{contacts=contacts.filter(c=>!selIds.has(c.id));selIds.clear();saveC();renderC();toast(n+' kişi silindi.')};
+  openM('mConfirm');
+}
+function doConfirm(){if(pendAct)pendAct();pendAct=null;closeM('mConfirm')}
+function closeConfirm(){pendAct=null;closeM('mConfirm')}
+
+function openImport(){openM('mImport');setTimeout(()=>document.getElementById('iTxt').focus(),120)}
+function closeImport(){closeM('mImport')}
+function doImport(){
+  const lines=document.getElementById('iTxt').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  let added=0,dupes=0;
+  lines.forEach(line=>{
+    const p=line.split(',').map(s=>s.trim());
+    let n='',e='';
+    if(p.length>=2){n=p[0];e=p[1]}else if(p[0].includes('@')){e=p[0];n=e.split('@')[0]}else{n=p[0];e=n.toLowerCase().replace(/\s+/g,'')+'@cekilis.local'}
+    if(!isEmail(e)||contacts.find(c=>c.email.toLowerCase()===e.toLowerCase())){dupes++;return}
+    contacts.push({id:Date.now()+'_'+Math.random().toString(36).slice(2),name:n,email:e});added++;
+  });
+  saveC();renderC();closeImport();document.getElementById('iTxt').value='';
+  toast(added>0?added+' kişi eklendi'+(dupes>0?' ('+dupes+' atlandı)':'')+'.' :'Yeni kişi eklenmedi.',added===0);
+}
+
+// ═══ RAFFLE ═══════════════════════════════════════════
+function setPairsNazim(arr){
+  const size=arr.length,es=new Array(size);let a1=true;
+  while(a1){
+    a1=false;
+    for(let i=0;i<size;i++){
+      let ag=true,r=-1,cnt=0;
+      while(ag){cnt++;ag=false;r=Math.floor(Math.random()*size);
+        if(r===i){if(cnt<10)ag=true;else a1=true}
+        for(let j=0;j<i;j++){if(es[j]===r){ag=true;break}}
+      }
+      es[i]=r;
+    }
+    let c1=0;for(let i=0;i<size;i++)if(es[es[i]]===i)c1++;
+    if(c1>2)a1=true;
+  }
+  return arr.map((_,i)=>arr[es[i]]);
+}
+
+function startRaffle(){
+  if(contacts.length<3){warn('Lütfen en az 3 kişi giriniz!');return}
+  document.getElementById('rcard').style.display='none';
+  document.getElementById('bDraw').disabled=true;
+  if(roller)clearInterval(roller);
+  const drum=document.getElementById('drum');
+  let tick=0;
+  roller=setInterval(()=>{
+    const r=contacts[Math.floor(Math.random()*contacts.length)];
+    drum.innerHTML=`<div class="d-roll">${esc(r.name)}</div>`;
+    if(++tick>=28){clearInterval(roller);roller=null;revealResults()}
+  },75);
+  if(window.innerWidth<=768)switchTab('right');
+}
+
+function revealResults(){
+  const peers=setPairsNazim(contacts);
+  document.getElementById('drum').innerHTML=`<div class="d-done">🎉 Çekiliş Tamamlandı!</div>`;
+  document.getElementById('bDraw').disabled=false;
+  lastPairs=contacts.map((g,i)=>({giver:g,receiver:peers[i]}));
+
+  const grid=document.getElementById('rgrid');grid.innerHTML='';
+  lastPairs.forEach((p,i)=>{
+    const row=document.createElement('div');row.className='rrow';row.style.animationDelay=(i*55)+'ms';
+    row.innerHTML=`<div class="rperson"><div class="rn">${esc(p.giver.name)}</div><div class="re">${esc(p.giver.email)}</div></div><div class="rarr"><div class="achip">hediye verir →</div></div><div class="rperson recv"><div class="rn">${esc(p.receiver.name)}</div><div class="re">${esc(p.receiver.email)}</div></div>`;
+    setTimeout(()=>grid.appendChild(row),i*55);
+  });
+
+  document.getElementById('racts').innerHTML=`
+    <button class="b-ghost" onclick="copyRes()">📋 Kopyala</button>
+    <button class="b-ghost" onclick="dlRes()">⬇ İndir</button>
+    ${eCfg.ok?'<button class="b-green" onclick="sendEmails()">📧 Email Gönder</button>':''}
+  `;
+  document.getElementById('rcard').style.display='';
+
+  const ts=new Date().toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+  hist.unshift({ts,summary:lastPairs.map(p=>p.giver.name+' → '+p.receiver.name).join(' · ')});
+  saveH();renderH();
+}
+
+function copyRes(){
+  if(!lastPairs)return;
+  navigator.clipboard.writeText(lastPairs.map(p=>`${p.giver.name} (${p.giver.email}) → ${p.receiver.name} (${p.receiver.email})`).join('\n')).then(()=>toast('Sonuçlar kopyalandı!'));
+}
+function dlRes(){
+  if(!lastPairs)return;
+  const d=new Date().toISOString().slice(0,10),lines=['Çekiliş Sonuçları — '+d,'═'.repeat(40),''];
+  lastPairs.forEach(p=>{lines.push(p.giver.name+' ('+p.giver.email+')');lines.push('  → Hediye vereceği kişi: '+p.receiver.name+' ('+p.receiver.email+')');lines.push('')});
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'})),download:`cekilis-${d}.txt`});
+  a.click();URL.revokeObjectURL(a.href);
+}
+
+function renderH(){
+  const c=document.getElementById('hcard'),l=document.getElementById('hlist');
+  if(!hist.length){c.style.display='none';return}
+  c.style.display='';
+  l.innerHTML=hist.slice(0,8).map(h=>`<div class="hrow"><span class="hts">${h.ts}</span><span class="hbody">${h.summary.length>90?h.summary.slice(0,90)+'…':h.summary}</span></div>`).join('');
+}
+
+// ═══ EMAIL ════════════════════════════════════════════
+function openEmailSetup(){
+  document.getElementById('cKey').value=eCfg.key||'';
+  document.getElementById('cSvc').value=eCfg.svc||'';
+  document.getElementById('cTpl').value=eCfg.tpl||'';
+  document.getElementById('cFrom').value=eCfg.from||'Çekiliş Uygulaması';
+  document.getElementById('eErr').style.display='none';
+  openM('mEmail');
+}
+function closeEmailSetup(){closeM('mEmail')}
+function saveEmailCfg(){
+  const key=document.getElementById('cKey').value.trim(),svc=document.getElementById('cSvc').value.trim(),
+        tpl=document.getElementById('cTpl').value.trim(),from=document.getElementById('cFrom').value.trim()||'Çekiliş Uygulaması';
+  const err=document.getElementById('eErr');
+  if(!key||!svc||!tpl){err.textContent='Lütfen tüm alanları doldurun.';err.style.display='block';return}
+  Object.assign(eCfg,{key,svc,tpl,from,ok:true});
+  try{emailjs.init(key);localStorage.setItem(LS_E,JSON.stringify({key,svc,tpl,from}))}catch(e){}
+  closeEmailSetup();updEBanner();toast('Email ayarları kaydedildi!');
+}
+function clearEmailCfg(){Object.assign(eCfg,{ok:false,key:'',svc:'',tpl:''});try{localStorage.removeItem(LS_E)}catch(e){}updEBanner();toast('Email ayarları kaldırıldı.')}
+function updEBanner(){
+  const b=document.getElementById('eBanner'),t=document.getElementById('eBannerTxt'),btn=document.getElementById('eBannerBtn'),clr=document.getElementById('eClearBtn');
+  if(eCfg.ok){b.className='ebanner ok';t.textContent='✅ Email bildirimi aktif — çekiliş sonrası "Email Gönder" butonuna basın.';btn.textContent='Düzenle';clr.style.display='inline-flex'}
+  else{b.className='ebanner';t.textContent='📧 Email bildirimi kapalı. Katılımcılara otomatik bildirim için ayarlayın.';btn.textContent='Ayarla';clr.style.display='none'}
+}
+
+async function sendEmails(){
+  if(!lastPairs||!eCfg.ok)return;
+  const pairs=lastPairs,st=pairs.map(p=>({pair:p,status:'pending',error:''}));
+  function rp(){
+    document.getElementById('plist').innerHTML=st.map(s=>`
+      <div class="prow ${s.status}">
+        <div class="pdot"></div>
+        <div class="pinfo"><div class="pname">${esc(s.pair.giver.name)}</div><div class="ptgt">→ ${esc(s.pair.receiver.name)} · ${esc(s.pair.giver.email)}</div></div>
+        <div class="pst">${s.status==='pending'?'⏳ Bekliyor':s.status==='sending'?'📤 Gönderiliyor…':s.status==='sent'?'✓ Gönderildi':'✗ '+(s.error||'Hata')}</div>
+      </div>`).join('');
+  }
+  document.getElementById('sTitle').textContent=`Emailler Gönderiliyor… (0/${pairs.length})`;
+  document.getElementById('sDesc').textContent=`Her katılımcıya kime hediye alacağı bildiriliyor.`;
+  document.getElementById('sClose').style.display='none';
+  rp();openM('mSend');
+  let sent=0,fail=0;
+  for(let i=0;i<st.length;i++){
+    st[i].status='sending';rp();
+    const{giver,receiver}=st[i].pair;
+    try{
+      await emailjs.send(eCfg.svc,eCfg.tpl,{to_name:giver.name,to_email:giver.email,receiver_name:receiver.name,receiver_email:receiver.email,from_name:eCfg.from,subject:'Çekiliş sonucu',message:'Hediye vereceğiniz kişi : '+receiver.name});
+      st[i].status='sent';sent++;
+    }catch(e){st[i].status='failed';st[i].error=e?.text||e?.message||'Bilinmeyen hata';fail++}
+    document.getElementById('sTitle').textContent=`Emailler Gönderiliyor… (${sent+fail}/${pairs.length})`;
+    rp();
+    if(i<st.length-1)await new Promise(r=>setTimeout(r,400));
+  }
+  document.getElementById('sTitle').textContent=fail===0?`✅ ${sent} Email Gönderildi!`:sent===0?`❌ Emailler Gönderilemedi`:`⚠ ${sent} Gönderildi, ${fail} Başarısız`;
+  document.getElementById('sDesc').textContent=fail>0?'Hatalı emailler için API bilgilerini kontrol edin.':'Tüm bildirimler başarıyla gönderildi.';
+  document.getElementById('sClose').style.display='inline-flex';rp();
+}
+function closeSend(){closeM('mSend')}
+
+// ═══ MODAL HELPERS ════════════════════════════════════
+function openM(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeM(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el){el.classList.remove('open');document.body.style.overflow=''}}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')['mImport','mEmail','mSend','mConfirm'].forEach(id=>closeM(id))});
+
+// ═══ KEYBOARD ═════════════════════════════════════════
+document.getElementById('iN').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('iE').focus()});
+document.getElementById('iE').addEventListener('keydown',e=>{if(e.key==='Enter')addContact()});
+
+// ═══ INIT ═════════════════════════════════════════════
+loadC();loadH();loadE();renderC();renderH();updEBanner();
+</script>
+</body>
+</html>
